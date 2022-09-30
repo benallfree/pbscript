@@ -1,0 +1,32 @@
+{
+  "name": "@pbscript/core",
+  "version": "0.0.1",
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "chokidar '**' --ignore 'dist' -c 'parcel build --no-cache' --initial",
+    "build": "parcel build --no-cache"
+  },
+  "devDependencies": {
+    "parcel": "^2.7.0",
+    "typescript": "^4.8.3"
+  },
+  "targets": {
+    "main": {
+      "isLibrary": true,
+      "context": "browser",
+      "outputFormat": "esmodule",
+      "sourceMap": true,
+      "includeNodeModules": true
+    }
+  },
+  "dependencies": {
+    "@s-libs/micro-dash": "^14.1.0",
+    "nanoevents": "^7.0.1",
+    "nanoid": "^4.0.0",
+    "ts-brand": "^0.0.2"
+  }
+}

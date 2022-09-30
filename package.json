@@ -1,0 +1,24 @@
+{
+  "name": "pbj",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": "true",
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@parcel/packager-ts": "2.7.0",
+    "@parcel/transformer-typescript-types": "2.7.0",
+    "prettier": "^2.7.1",
+    "prettier-plugin-organize-imports": "^3.1.1",
+    "typescript": ">=3.0.0"
+  },
+  "prettier": {
+    "semi": false,
+    "useTabs": false,
+    "singleQuote": true,
+    "plugins": [
+      "./node_modules/prettier-plugin-organize-imports"
+    ]
+  }
+}
