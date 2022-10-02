@@ -1,15 +1,8 @@
 {
-  "name": "@pbj/sample",
+  "name": "@pbscript/sample",
   "version": "0.0.1",
   "dependencies": {
-    "@parcel/config-default": "^2.7.0",
-    "@parcel/core": "^2.7.0",
-    "@pbscript/core": "0.0.1",
-    "@s-libs/micro-dash": "^14.1.0",
-    "@types/tmp": "^0.2.3",
-    "chokidar": "^3.5.3",
-    "parcel": "^2.7.0",
-    "tmp": "^0.2.1"
+    "@pbscript/core": "^0.0.1"
   },
   "scripts": {
     "build": "parcel build --no-cache",
