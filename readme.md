@@ -48,9 +48,9 @@ To run JS functions, you need to run a PocketBase instance which has been enhanc
 
 You can do it any way you like, just as long as you end up with an admin login for the next section.
 
-**Option 1 (free): run fully managed on pockethost.io**
+**Option 1 (free): run fully managed on [pockethost.io](https://pockethost.io)**
 
-The absolute easiest way to provision a new PocketBase instance enhanced with PBScript is to use pockethost.io. You'll be up and running with a PocketBase URL in under 30 seconds. This is as close to a Firebase/Supabase BaaS experience as you can get.
+The absolute easiest way to provision a new PocketBase instance enhanced with PBScript is to use [pockethost.io](https://pockethost.io). You'll be up and running with a PocketBase URL in under 30 seconds. This is as close to a Firebase/Supabase BaaS experience as you can get.
 
 **Option 2 (free): run self-managed on fly.io**
 
