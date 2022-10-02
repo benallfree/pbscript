@@ -224,12 +224,6 @@ __go.addRoute({
 
 Low-level primitive providing direct access to the `PocketBase` app instance. Normally you will not access this directly. The @pbscript/core library is built on top of this.
 
-| Property Name     | Description                            |
-| ----------------- | -------------------------------------- |
-| `__go.app`        | The `PocketBase` application object.   |
-| `__go.ping()`     |                                        |
-| `__go.addRoute()` | Helper function to add a new API route |
-
 ## Advanced
 
 ### Upgrading an Existing Custom PocketBase
