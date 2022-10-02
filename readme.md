@@ -147,7 +147,7 @@ In your command shell, run:
 npx pbscript dev
 ```
 
-PNScript is designed for a fast development cycle. If you used our `package.json`, this command will watch for changes (in `./dist`) and re-deploy your script on every change.
+PBScript is designed for a fast development cycle. If you used our `package.json`, this command will watch for changes (in `./dist`) and re-deploy your script on every change.
 
 PBScript updates do not require a PocketBase restart. Old versions of your script are kept in an archive table for easy rollbacks.
 
@@ -188,7 +188,7 @@ Or, add it to `package.json`:
 
 PBScript runs in a secure sandboxed environment inside PocketBase. A simplified subset of PocketBase's hooks are available. Complete Typescript definitions are included.
 
-If you are a web programmer, you might be accustomed to using the [NodeJS API](https://nodejs.org/docs/latest/api/) or the browser [Web API](https://developer.mozilla.org/en-US/docs/Web/API) that you don't even realize those APIs are not core features of ECMAScript. Neither of those APIs are safe or allowed in the PocketBase execution environment.
+You might be accustomed to using the [NodeJS API](https://nodejs.org/docs/latest/api/) or the browser [Web API](https://developer.mozilla.org/en-US/docs/Web/API), but those APIs are not core features of ECMAScript. They are not safe or allowed in the PocketBase execution environment.
 
 Instead, your script runs in the `PocketBaseApi` execution environment. `PocketBaseApi` set of API calls to interact with PocketBase. With it, you can do CRUD, transactions, hook into PocketBase events, new API endpoints, and generally extend PocketBase.
 
