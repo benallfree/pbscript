@@ -6,12 +6,12 @@ PBScript allows you to write [PocketBase](https://pocketbase.io) server-side fun
 
 With PBScript, you can:
 
-✅ Write your server-side logic in Typescript or JS
-✅ Access models, collections, transactions, hooks, and all server-side features of PocketBase  
-✅ Communicate with PocketBase using a streamlined JavaScript-style API  
-✅ Deploy and alter cloud functions without rebuilding _or even restarting_ PocketBase  
-✅ Roll back to previous versions
-✅ Use the `pbscript` CLI tool for intelligent dev mode, live deployment, and rollback
+- ✅ Write your server-side logic in Typescript or JS
+- ✅ Access models, collections, transactions, hooks, and all server-side features of PocketBase
+- ✅ Communicate with PocketBase using a streamlined JavaScript-style API
+- ✅ Deploy and alter cloud functions without rebuilding _or even restarting_ PocketBase
+- ✅ Roll back to previous versions
+- ✅ Use the `pbscript` CLI tool for intelligent dev mode, live deployment, and rollback
 
 <h3>Table of Contents</h3>
 
