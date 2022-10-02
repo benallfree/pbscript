@@ -69,6 +69,7 @@ func bindApis() {
 	__go_apis.Set("requireAdminAuthOnlyIfAny", apis.RequireAdminAuthOnlyIfAny)
 	__go_apis.Set("requireAdminOrOwnerAuth", apis.RequireAdminOrOwnerAuth)
 	__go_apis.Set("requireAdminOrUserAuth", apis.RequireAdminOrUserAuth)
+	__go_apis.Set("app", app)
 	__go_apis.Set("ping", func() string {
 		return "Hello from Go!"
 	})
