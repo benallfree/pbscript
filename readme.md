@@ -96,7 +96,9 @@ go run pocketbase.go serve
 
 <h3>2. Create a new JS/TS project</h3>
 
-You can create any type of TS/JS project you want, but here's the `package.json` we recommend. The important part is that your script gets bundled as ES5:
+You can create any type of TS/JS project you want, but here's the `package.json` we recommend. We also have a [sample PBScript project](https://github.com/benallfree/pbscript/tree/master/packages/sample) you can check out.
+
+The important part is that your script gets bundled as ES5:
 
 ```json
 {
