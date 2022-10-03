@@ -17,6 +17,7 @@ import (
 	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/daos"
 	"github.com/pocketbase/pocketbase/models"
+	"github.com/pocketbase/pocketbase/models/schema"
 )
 
 var app *pocketbase.PocketBase
@@ -101,8 +102,11 @@ func loadActiveScript() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	if len(recs) != 1 {
+	if len(recs) > 1 {
 		return "", fmt.Errorf("expected one active script record but got %d", len(recs))
+	}
+	if len(recs) == 0 {
+		return "", nil // Empty script
 	}
 	rec := recs[0]
 	jsonData := rec.GetStringDataValue("data")
@@ -195,6 +199,36 @@ console.log('Bottom of PBScript bootstrap')
 			fmt.Printf("Ping succeeded with: %s\n", res)
 		}
 	}
+	return nil
+}
+
+func migrate() error {
+	fmt.Println("Finding collection")
+	_, err := app.Dao().FindCollectionByNameOrId("anything")
+	fmt.Println("Finished collection")
+	if err != nil {
+		err = app.Dao().SaveCollection(&models.Collection{
+			Name: "pbscript",
+			Schema: schema.NewSchema(
+				&schema.SchemaField{
+					Type: schema.FieldTypeText,
+					Name: "type",
+				},
+				&schema.SchemaField{
+					Type: schema.FieldTypeBool,
+					Name: "isActive",
+				},
+				&schema.SchemaField{
+					Type: schema.FieldTypeJson,
+					Name: "data",
+				},
+			),
+		})
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -295,10 +329,10 @@ func initAppEvents() {
 func StartPBScript(_app *pocketbase.PocketBase) error {
 	app = _app
 
-	watchForScriptChanges()
-	initAppEvents()
-
 	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
+		migrate()
+		watchForScriptChanges()
+		initAppEvents()
 		router = e.Router
 		err := reloadVm()
 		if err != nil {
