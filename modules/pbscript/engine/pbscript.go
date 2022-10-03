@@ -47,6 +47,14 @@ func bindApis() {
 		})
 		cleanup("onModelBeforeCreate", unsub)
 	})
+	__go_apis.Set("onModelAfterCreate", func(cb func(e *core.ModelEvent)) {
+		fmt.Println("Listening in Go for onModelAfterCreate")
+		unsub := event.On(event.EVT_ON_MODEL_AFTER_CREATE, func(e *event.UnknownPayload) {
+			fmt.Println("OnModelAfterCreate event listener in Go")
+			cb((*core.ModelEvent)(unsafe.Pointer(e)))
+		})
+		cleanup("onModelAfterCreate", unsub)
+	})
 
 	// type TransactionApi struct {
 	// 	Execute func(sql string)
