@@ -151,7 +151,7 @@ func reloadVm() error {
 		for _, v := range s {
 			fmt.Printf("%s ", v.String())
 		}
-		fmt.Print()
+		fmt.Print("\n")
 	})
 	vm.Set("console", console)
 
@@ -159,7 +159,7 @@ func reloadVm() error {
 	bindApis()
 	vm.Set("__go", __go_apis)
 
-	fmt.Println("Go initializatino complete. Running script.")
+	fmt.Println("Go initialization complete. Running script.")
 	source := fmt.Sprintf(`
 console.log('Top of PBScript bootstrap')
 let __jsfuncs = {ping: ()=>'Hello from PBScript!'}
@@ -168,14 +168,12 @@ __jsfuncs = {__jsfuncs, ...funcs }
 }
 %s
 console.log('Pinging Go')
-console.log(__go.ping())
+console.log('Pinging Go succeeded with:', __go.ping())
 console.log('Bottom of PBScript bootstrap')
 `, script)
-	v, err := vm.RunString(source)
+	_, err = vm.RunString(source)
 	if err != nil {
-		fmt.Printf("Got an error back: %s\n", err)
-	} else {
-		fmt.Printf("Got a value back %s\n", v)
+		return err
 	}
 
 	// js api  wireup
@@ -186,15 +184,14 @@ console.log('Bottom of PBScript bootstrap')
 	jsFuncs := S{}
 	err = vm.ExportTo(vm.Get("__jsfuncs"), &jsFuncs)
 	if err != nil {
-		fmt.Println("Got an error trying to fetch js api")
-		panic(err)
+		return err
 	}
 
 	{
 		fmt.Println("Pinging JS")
 		res, err := jsFuncs.Ping()
 		if err != nil {
-			fmt.Printf("Ping failed with %s\n", err.Value().Export())
+			return fmt.Errorf("ping() failed with %s", err.Value().Export())
 		} else {
 			fmt.Printf("Ping succeeded with: %s\n", res)
 		}
