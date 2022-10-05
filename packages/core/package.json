@@ -1,11 +1,18 @@
 {
   "name": "@pbscript/core",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "source": "src/index.ts",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
   "license": "MIT",
+  "author": {
+    "name": "Ben Allfree",
+    "url": "https://github.com/benallfree"
+  },
+  "repository": {
+    "url": "https://github.com/benallfree/pbscript"
+  },
   "scripts": {
     "dev": "chokidar '**' --ignore 'dist' -c 'parcel build --no-cache' --initial",
     "build": "parcel build --no-cache"
