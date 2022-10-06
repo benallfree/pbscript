@@ -243,7 +243,7 @@ func watchForScriptChanges() {
 		}
 		return nil
 	})
-
+	
 	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
 		// add new "GET /api/hello" route
 
@@ -326,9 +326,10 @@ func initAppEvents() {
 func StartPBScript(_app *pocketbase.PocketBase) error {
 	app = _app
 
+	watchForScriptChanges()
+
 	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
 		migrate()
-		watchForScriptChanges()
 		initAppEvents()
 		router = e.Router
 		err := reloadVm()
