@@ -43,7 +43,9 @@ func bindApis() {
 	__go_apis.Set("onModelBeforeCreate", func(cb func(e *core.ModelEvent)) {
 		fmt.Println("Listening in Go for onModelBeforeCreate")
 		unsub := event.On(event.EVT_ON_MODEL_BEFORE_CREATE, func(e *event.UnknownPayload) {
-			fmt.Println("OnModelBeforeCreate event listener in Go")
+			// fmt.Println("syntheticevent: OnModelBeforeCreate")
+			// fmt.Println("e", e)
+			// fmt.Println("cb", cb)
 			cb((*core.ModelEvent)(unsafe.Pointer(e)))
 		})
 		cleanup("onModelBeforeCreate", unsub)
@@ -51,7 +53,9 @@ func bindApis() {
 	__go_apis.Set("onModelAfterCreate", func(cb func(e *core.ModelEvent)) {
 		fmt.Println("Listening in Go for onModelAfterCreate")
 		unsub := event.On(event.EVT_ON_MODEL_AFTER_CREATE, func(e *event.UnknownPayload) {
-			fmt.Println("OnModelAfterCreate event listener in Go")
+			// fmt.Println("syntheticevent: OnModelAfterCreate")
+			// fmt.Println("e", e)
+			// fmt.Println("cb", cb)
 			cb((*core.ModelEvent)(unsafe.Pointer(e)))
 		})
 		cleanup("onModelAfterCreate", unsub)
@@ -243,7 +247,7 @@ func watchForScriptChanges() {
 		}
 		return nil
 	})
-	
+
 	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
 		// add new "GET /api/hello" route
 
@@ -312,12 +316,12 @@ func watchForScriptChanges() {
 
 func initAppEvents() {
 	app.OnModelBeforeCreate().Add(func(e *core.ModelEvent) error {
-		fmt.Println("OnModelBeforeCreate in Go")
+		fmt.Println("event: OnModelBeforeCreate")
 		event.Fire(event.EVT_ON_MODEL_BEFORE_CREATE, (*event.UnknownPayload)(unsafe.Pointer(e)))
 		return nil
 	})
 	app.OnModelAfterCreate().Add(func(e *core.ModelEvent) error {
-		fmt.Println("OnModelAfterCreate in Go")
+		fmt.Println("event: OnModelAfterCreate")
 		event.Fire(event.EVT_ON_MODEL_AFTER_CREATE, (*event.UnknownPayload)(unsafe.Pointer(e)))
 		return nil
 	})
@@ -334,10 +338,9 @@ func StartPBScript(_app *pocketbase.PocketBase) error {
 		router = e.Router
 		err := reloadVm()
 		if err != nil {
-			fmt.Println("Got an error")
-			fmt.Println(err)
+			fmt.Printf("Error loading VM: %s\n", err)
 		}
-		return err
+		return nil
 	})
 
 	return nil
