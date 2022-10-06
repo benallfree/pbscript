@@ -13,7 +13,7 @@ const (
 )
 
 func isValid(eventName string) bool {
-	return eventName == EVT_ON_MODEL_BEFORE_CREATE
+	return eventName == EVT_ON_MODEL_BEFORE_CREATE || eventName== EVT_ON_MODEL_AFTER_CREATE
 }
 
 func ensureEvent(eventName string) {
