@@ -2,48 +2,39 @@ import { Parcel } from '@parcel/core'
 import { debounce } from '@s-libs/micro-dash'
 import chokidar from 'chokidar'
 import { Command } from 'commander'
+import { mkdirSync } from 'fs'
 import { join } from 'path'
 import { cwd } from 'process'
-import tmp from 'tmp'
-import { DEFAULT_PB_DEV_URL } from '../constants'
-import { SessionState } from '../providers/CustomAuthStore'
-import { ensureAdminClient } from '../util/ensureAdminClient'
 import { getProjectRoot, readSettings } from '../util/project'
 
-export type DevConfig = {
-  session: SessionState
-  host: string
-  src: string
+export type BuildConfig = {
   dist: string
+  src: string
 }
+
 export const addDevCommand = (program: Command) => {
   program
-    .command('dev')
-    .description('Watch for source code changes in development mode')
+    .command('build')
+    .description('Build the JS bundle')
     .option(
       '--src <path>',
       `Path to source (default: <project>/src/index.{ts|js})`
     )
     .option('--dist <path>', `Path to dist (default: <project>/dist/index.js)`)
-    .option('--host', 'PocketBase host', DEFAULT_PB_DEV_URL)
     .action(async (options) => {
       const defaultSrc = options.src
       const defaultDist = options.dist
-      const defaultHost = options.host
 
-      const config: DevConfig = {
-        session: { token: '', model: null },
-        host: DEFAULT_PB_DEV_URL,
+      const config: BuildConfig = {
         src: join(getProjectRoot(), './src/index.ts'),
         dist: join(getProjectRoot(), './dist/index.js'),
-        ...readSettings('dev'),
+        ...readSettings('build'),
       }
       if (defaultDist) config.dist = defaultDist
       if (defaultSrc) config.src = defaultSrc
 
-      const client = await ensureAdminClient('dev', config)
-
-      const distDir = tmp.dirSync().name
+      const { src, dist } = config
+      mkdirSync(dist, { recursive: true })
       console.log(cwd())
 
       const bundler = new Parcel({

@@ -6,18 +6,15 @@ declare global {
 
 import 'cross-fetch/polyfill'
 import 'eventsource'
-import { addDeployCommand } from './commands/deploy'
-import { addLoginCommand } from './commands/login'
-import { getProjectRoot } from './util/getProjectConfig'
-
-console.log(`PBScript 0.0.1 running from ${getProjectRoot()}`)
+import packagex from '../package.json'
+import { addPublishCommand } from './commands/publish'
+console.log(`PBScript ${packagex.version}`)
 
 program
   .name('pbscript')
   .description('CLI for JavaScript extensions for PocketBase ')
   .version('0.0.1')
-addLoginCommand(program)
-addDeployCommand(program)
+addPublishCommand(program)
 // addDevCommand(program)
 
 program.parse()

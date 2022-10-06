@@ -3,9 +3,16 @@ import { existsSync, readFileSync } from 'fs'
 import { join } from 'path'
 import pocketbaseEs from 'pocketbase'
 import { DEFAULT_PB_DEV_URL } from '../constants'
+import { SessionState } from '../providers/CustomAuthStore'
 import { die } from '../util/die'
-import { getProjectRoot } from '../util/getProjectConfig'
-import { adminPbClient } from '../util/pbClient'
+import { ensureAdminClient } from '../util/ensureAdminClient'
+import { getProjectRoot, readSettings } from '../util/project'
+
+export type PublishConfig = {
+  session: SessionState
+  host: string
+  dist: string
+}
 
 const migrate = async (client: pocketbaseEs) => {
   {
@@ -38,10 +45,7 @@ const migrate = async (client: pocketbaseEs) => {
   }
 }
 
-const deploy = async (client: pocketbaseEs, fname: string) => {
-  if (!existsSync(fname)) {
-    die(`${fname} does not exist. Deployment failed.`)
-  }
+const publish = async (client: pocketbaseEs, fname: string) => {
   const js = readFileSync(fname).toString()
   const url = `${client.baseUrl}/api/pbscript/deploy`
   const res = await client
@@ -56,23 +60,41 @@ const deploy = async (client: pocketbaseEs, fname: string) => {
       console.error(e)
       throw e
     })
-  console.log({ res })
 }
 
-export const addDeployCommand = (program: Command) => {
+export const addPublishCommand = (program: Command) => {
   const _srcDefault = join(getProjectRoot(), './dist/index.js')
   const _hostDefault = DEFAULT_PB_DEV_URL
   program
-    .command('deploy')
-    .description('Deploy JS bundle to PBScript-enabled PocketBase instance')
-    .option('--src <src>', `Path to bundle`, _srcDefault)
-    .option('--host <host>', `PocketBase host`, _hostDefault)
+    .command('publish')
+    .description('Publish JS bundle to PBScript-enabled PocketBase instance')
+    .option(
+      '--dist <src>',
+      `Path to dist bundle (default: <project>/dist/index.js)`
+    )
+    .option('--host <host>', `PocketBase host (default: ${DEFAULT_PB_DEV_URL})`)
     .action(async (options) => {
-      const { host, src } = options
+      const defaultHost = options.host
+      const defaultDist = options.dist
 
-      console.log(`Deploying from ${src} to ${host}`)
-      const client = await adminPbClient(host)
+      const config: PublishConfig = {
+        session: { token: '', model: null },
+        host: DEFAULT_PB_DEV_URL,
+        dist: join(getProjectRoot(), './dist/index.js'),
+        ...readSettings<PublishConfig>('publish'),
+      }
+      if (defaultHost) config.host = defaultHost
+      if (defaultDist) config.dist = defaultDist
+
+      const { host, dist } = config
+
+      if (!existsSync(dist)) {
+        die(`${dist} does not exist. Nothing to publish.`)
+      }
+
+      const client = await ensureAdminClient('publish', config)
+      console.log(`Deploying from ${dist} to ${host}`)
       await migrate(client)
-      await deploy(client, src)
+      await publish(client, dist)
     })
 }
