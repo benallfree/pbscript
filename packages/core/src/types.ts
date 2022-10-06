@@ -25,6 +25,8 @@ export type EchoHandlerFunc = (context: EchoContext) => void
 
 export type EchoContext = any
 
+export type HttpMiddleware = EchoMiddlewareFunc
+
 export type Route = {
   method: HttpMethods
   path: string
@@ -45,5 +47,3 @@ declare global {
     requireAdminOrUserAuth: () => EchoMiddlewareFunc
   }
 }
-
-export type HttpMiddleware = EchoMiddlewareFunc
