@@ -11,6 +11,6 @@ __go.addRoute({
   middlewares: [],
 })
 
-__go.app.onModelBeforeCreate().add((e: any) => {
-  console.log(`***1 a model was updated in JS!`, Object.keys(e))
+__go.onModelBeforeCreate((e: any) => {
+  console.log(`***7 a model was updated in JS!`, Object.keys(e))
 })
