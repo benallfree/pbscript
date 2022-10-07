@@ -1,4 +1,4 @@
-export enum HttpMethods {
+export enum EchoHttpMethods {
   Get = 'GET',
 }
 
@@ -17,7 +17,7 @@ export type PBScriptApi = {
 export type HttpResponse = {
   json: (status: HttpResponseStatuses, data: object) => void
 }
-export type HttpGetHandler = (request: any, response: HttpResponse) => void
+export type EchoHttpHandler = (context: any) => void
 
 export type EchoMiddlewareFunc = (next: EchoHandlerFunc) => EchoHandlerFunc
 
@@ -25,20 +25,18 @@ export type EchoHandlerFunc = (context: EchoContext) => void
 
 export type EchoContext = any
 
-export type HttpMiddleware = EchoMiddlewareFunc
-
-export type Route = {
-  method: HttpMethods
+export type EchoRoute = {
+  method: EchoHttpMethods
   path: string
-  handler: HttpGetHandler
-  middlewares: HttpMiddleware[]
+  handler: EchoHttpHandler
+  middlewares: EchoMiddlewareFunc[]
 }
 
 declare global {
   function registerJsFuncs(api: PBScriptApi): void
   let __go: {
     app: any
-    addRoute: (route: Route) => void
+    addRoute: (route: EchoRoute) => void
     ping: () => string
     onModelBeforeCreate: any
     requireAdminAuth: () => EchoMiddlewareFunc
