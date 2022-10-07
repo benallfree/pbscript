@@ -18,15 +18,16 @@ export type ConnectionConfig = {
   host: string
 }
 
-export const ensureAdminClient = async <TConfig extends ConnectionConfig>(
+export const ensureAdminClient = async (
   slug: string,
-  config: TConfig
+  config: ConnectionConfig
 ) => {
-  const saver = mkProjectSaver(slug)
-  const client = pbClient(config, (session) => saver({ ...config, session }))
+  const saver = mkProjectSaver<ConnectionConfig>(slug)
+  const client = pbClient(config, (session) =>
+    saver((config) => ({ ...config, session }))
+  )
   const _isAdmin = await isAdmin(client)
   if (_isAdmin) {
-    saver(config)
     return client
   }
 
@@ -59,7 +60,7 @@ export const ensureAdminClient = async <TConfig extends ConnectionConfig>(
     const { username, password } = response
     try {
       await client.admins.authViaEmail(username, password)
-      saver(config)
+      saver((config) => ({ ...config, host }))
       console.log(`Successfully logged in as ${username} for project `)
       break
     } catch (e) {

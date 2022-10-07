@@ -39,12 +39,14 @@ export class CustomAuthStore extends BaseAuthStore {
   }
   save(token: string, model: User | Admin | null) {
     this._save({ token, model })
+    this.baseModel = model
+    this.baseToken = token
   }
   clear(): void {
     throw new Error(`Unsupported clear()`)
   }
   loadFromCookie(cookie: string, key?: string | undefined): void {
-    throw new Error(`Unsuported loadFromCookie()`)
+    throw new Error(`Unsupported loadFromCookie()`)
   }
   exportToCookie(
     options?: SerializeOptions | undefined,
