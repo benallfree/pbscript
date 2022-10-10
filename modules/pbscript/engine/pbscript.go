@@ -26,6 +26,26 @@ var vm *goja.Runtime
 var cleanups = []func(){}
 var __go_apis *goja.Object
 
+const (
+	colorReset  = "\033[0m"
+	colorRed    = "\033[31m"
+	colorGreen  = "\033[32m"
+	colorYellow = "\033[33m"
+	colorBlue   = "\033[34m"
+	colorPurple = "\033[35m"
+	colorCyan   = "\033[36m"
+	colorWhite  = "\033[37m"
+)
+
+func logErrorf(format string, args ...any) (n int, err error) {
+
+	s := append(args, string(colorReset))
+	fmt.Print(colorRed)
+	res, err := fmt.Printf(format, s...)
+	fmt.Print(colorReset)
+	return res, err
+}
+
 func bindApis() {
 	__go_apis = vm.NewObject()
 	__go_apis.Set("addRoute", func(route echo.Route) {
@@ -338,7 +358,7 @@ func StartPBScript(_app *pocketbase.PocketBase) error {
 		router = e.Router
 		err := reloadVm()
 		if err != nil {
-			fmt.Printf("Error loading VM: %s\n", err)
+			logErrorf("Error loading VM: %s\n", err)
 		}
 		return nil
 	})
