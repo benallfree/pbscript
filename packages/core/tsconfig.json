@@ -12,7 +12,8 @@
     "noUncheckedIndexedAccess": true,
     "strictNullChecks": true,
     "typeRoots": ["./node_modules/@types"],
-    "inlineSourceMap": true
+    "inlineSourceMap": true,
+    "lib": ["ES2015"]
   },
   "include": ["./src"]
 }
