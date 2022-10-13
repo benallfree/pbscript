@@ -34,6 +34,7 @@
     "@s-libs/micro-dash": "^14.1.0",
     "nanoevents": "^7.0.1",
     "nanoid": "^4.0.0",
+    "svelte": "^3.51.0",
     "ts-brand": "^0.0.2"
   }
 }

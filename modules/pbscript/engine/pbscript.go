@@ -106,6 +106,14 @@ func bindApis() {
 	__go_apis.Set("ping", func() string {
 		return "Hello from Go!"
 	})
+	__go_apis.Set("newNullStringMapArrayPtr", func() *[]dbx.NullStringMap {
+		var users2 []dbx.NullStringMap
+		return &users2
+	})
+	__go_apis.Set("newNullStringMap", func() dbx.NullStringMap {
+		var users2 dbx.NullStringMap
+		return users2
+	})
 }
 
 func cleanup(msg string, cb func()) {

@@ -12,4 +12,6 @@ export type GoApi = {
   requireAdminAuthOnlyIfAny: () => EchoMiddlewareFunc
   requireAdminOrOwnerAuth: () => EchoMiddlewareFunc
   requireAdminOrUserAuth: () => EchoMiddlewareFunc
+  newNullStringMapArrayPtr: <TFields>() => TFields[]
+  newNullStringMap: <TFields>() => TFields
 }
